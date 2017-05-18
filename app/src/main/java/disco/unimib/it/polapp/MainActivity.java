@@ -2,24 +2,20 @@ package disco.unimib.it.polapp;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
@@ -27,20 +23,33 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         final SurfaceView cameraView = (SurfaceView) findViewById(R.id.camera_view);
-        final TextView barcodeInfo = (TextView) findViewById(R.id.code_info);
+
+        final Button scanButton = (Button) findViewById(R.id.scan_button);
+
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cameraView.setVisibility(View.VISIBLE);
+                scanButton.setVisibility(View.GONE);
+            }
+        });
 
         BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext())
-                //.setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE)
+                .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
 
         final CameraSource cameraSource = new CameraSource.Builder(this, detector)
-                .setRequestedPreviewSize(640, 480)
                 .setAutoFocusEnabled(true)
                 .build();
 
@@ -89,43 +98,9 @@ public class MainActivity extends AppCompatActivity {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
                 if (barcodes.size() != 0) {
-                    barcodeInfo.post(new Runnable() {    // Use the post method of the TextView
-                        public void run() {
-                            barcodeInfo.setText(    // Update the TextView
-                                    barcodes.valueAt(0).displayValue
-                            );
-                        }
-                    });
+                    Log.d(TAG, "Codice rilevato: " + barcodes.valueAt(0).rawValue);
                 }
             }
         });
-
-        /*Button btn = (Button) findViewById(R.id.button);
-        final TextView txtView = (TextView) findViewById(R.id.txtContent);
-        final ImageView myImageView = (ImageView) findViewById(R.id.imgview);
-
-        final Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.puppy);
-        myImageView.setImageBitmap(myBitmap);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext())
-                        .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE)
-                        .build();
-
-                if(!detector.isOperational()){
-                    txtView.setText("Could not set up the detector!");
-                    return;
-                }
-
-                Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
-                SparseArray<Barcode> barcodes = detector.detect(frame);
-
-                Barcode thisCode = barcodes.valueAt(0);
-
-                txtView.setText(thisCode.rawValue);
-            }
-        });*/
     }
 }
