@@ -15,15 +15,15 @@ public class LoginActivity extends AppCompatActivity {
     public static final String MyPref = "MyPrefs" ;
     public static final String Nome = "nameKey";
     public static final String cognome = "surnameKey";
-    public static final String isRegistered = "RegisteredKey";
+    public static final String firstTime = "RegisteredKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         sharedp=getSharedPreferences(MyPref,MODE_PRIVATE);
-        if(sharedp.getBoolean(isRegistered,true)){
-            Toast.makeText(LoginActivity.this,"Bentornato " + sharedp.getString(cognome,null),Toast.LENGTH_LONG).show();
+        if(sharedp.getBoolean(firstTime,false)){
+            Toast.makeText(LoginActivity.this,"Bentornato!",Toast.LENGTH_LONG).show();
             Intent openMain=new Intent(LoginActivity.this,MainActivity.class);
             startActivity(openMain);
         }
@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 editor.putString(Nome,N);
                 editor.putString(cognome,C);
-                editor.putBoolean(isRegistered,true);
+                editor.putBoolean(firstTime,false);
                 editor.apply();
                 Toast.makeText(LoginActivity.this,"Grazie!",Toast.LENGTH_LONG).show();
                 Intent openMain=new Intent(LoginActivity.this,MainActivity.class);
