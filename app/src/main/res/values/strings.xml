@@ -1,8 +1,22 @@
 <resources>
     <string name="app_name">PolApp</string>
-    <string name="cognome">Ruolo</string>
-    <string name="nome">Facoltà di Appartenenza</string>
+    <string name="cognome">Seleziona Ruolo</string>
+    <string name="nome">Seleziona Facoltà di Appartenenza</string>
     <string name="salva">Salva</string>
+    <string-array name="areeuniv">
+        <item>Area Economico-Statistica</item>
+        <item>Area Giuridica</item>
+        <item>Area Medica</item>
+        <item>Area Psicologica</item>
+        <item>Area di Scienze della Formazione</item>
+        <item>Area di Scienze</item>
+        <item>Area Sociologica</item>
+    </string-array>
+    <string-array name="ruoli">
+        <item>Studente</item>
+        <item>Docente</item>
+        <item>Personale ATA</item>
+    </string-array>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
