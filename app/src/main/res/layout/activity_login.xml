@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="@style/AppTheme.Toolbar" />
 
 
 

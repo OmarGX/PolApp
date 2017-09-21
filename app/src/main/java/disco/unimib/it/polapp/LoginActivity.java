@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         sharedp=getSharedPreferences(MyPref,MODE_PRIVATE);
         Boolean isFirstTime=sharedp.getBoolean(firstTime,true);
         if(isFirstTime==false){
@@ -30,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent openMain=new Intent(LoginActivity.this,MainActivity.class);
             startActivity(openMain);
         }else {
+            setContentView(R.layout.activity_login);
 
             final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
             setSupportActionBar(toolbar);

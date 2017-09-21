@@ -3,6 +3,10 @@
     <string name="cognome">Seleziona Ruolo</string>
     <string name="nome">Seleziona Facoltà di Appartenenza</string>
     <string name="salva">Salva</string>
+    <string name="DetectedButton">Livello Riempimento</string>
+    <string name="rifiuti1">Indifferenziata</string>
+    <string name="rifiuti2">Plastica</string>
+    <string name="rifiuti3">Carta</string>
     <string-array name="areeuniv">
         <item>Area Economico-Statistica</item>
         <item>Area Giuridica</item>
@@ -31,4 +35,8 @@
         completions."
     </string>
     <string name="title_activity_data">DataActivity</string>
+    <string name="title_activity_detected">DetectedActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

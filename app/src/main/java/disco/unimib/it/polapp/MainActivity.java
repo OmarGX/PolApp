@@ -1,6 +1,9 @@
 package disco.unimib.it.polapp;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -98,7 +101,30 @@ public class MainActivity extends AppCompatActivity {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
                 if (barcodes.size() != 0) {
-                    Log.d(TAG, "Codice rilevato: " + barcodes.valueAt(0).rawValue);
+                    final AlertDialog.Builder builder= new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("Codice rilevato: " + barcodes.valueAt(0).rawValue);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent detected = new Intent(MainActivity.this,DetectedActivity.class);
+                            startActivity(detected);
+                        }
+                    });
+                    builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            scanButton.setVisibility(View.VISIBLE);
+                            cameraView.setVisibility(View.GONE);
+                        }
+                    });
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            cameraSource.stop();
+                            AlertDialog detected = builder.create();
+                            detected.show();
+                        }
+                    });
                 }
             }
         });
