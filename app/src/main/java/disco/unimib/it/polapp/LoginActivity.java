@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
             final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
             setSupportActionBar(toolbar);
+            setTitle("PolApp");
 
             final Spinner ed1 = (Spinner) findViewById(R.id.spinner10);
             final Spinner ed2 = (Spinner) findViewById(R.id.spinner11);

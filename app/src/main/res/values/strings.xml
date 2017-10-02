@@ -4,9 +4,10 @@
     <string name="nome">Seleziona Facoltà di Appartenenza</string>
     <string name="salva">Salva</string>
     <string name="DetectedButton">Livello Riempimento</string>
-    <string name="rifiuti1">Indifferenziata</string>
-    <string name="rifiuti2">Plastica</string>
-    <string name="rifiuti3">Carta</string>
+    <string name="rifiuti1">INDIFFERENZIATA</string>
+    <string name="rifiuti2">PLASTICA</string>
+    <string name="rifiuti3">CARTA</string>
+    <string name="rifiuti4">STATO ISOLA</string>
     <string-array name="areeuniv">
         <item>Area Economico-Statistica</item>
         <item>Area Giuridica</item>

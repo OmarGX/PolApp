@@ -26,28 +26,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/salva"
+        android:layout_marginBottom="28dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="36dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
+        android:layout_marginTop="30dp"
+        android:text="@string/nome"
         android:layout_below="@+id/toolbar3"
-        android:layout_marginTop="27dp"
-        android:text="@string/nome" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp" />
 
     <Spinner
         android:id="@+id/spinner10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="52dp"
         android:layout_below="@+id/textView"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView" />
@@ -56,17 +58,17 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/spinner10"
-        android:layout_alignStart="@+id/spinner10"
+        android:layout_marginTop="69dp"
+        android:text="@string/cognome"
         android:layout_below="@+id/spinner10"
-        android:layout_marginTop="41dp"
-        android:text="@string/cognome" />
+        android:layout_alignLeft="@+id/spinner10"
+        android:layout_alignStart="@+id/spinner10" />
 
     <Spinner
         android:id="@+id/spinner11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="64dp"
         android:layout_below="@+id/textView2"
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2" />

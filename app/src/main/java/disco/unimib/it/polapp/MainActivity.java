@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent detected = new Intent(MainActivity.this,DetectedActivity.class);
+                            Bundle bundle=new Bundle();
+                            bundle.putString("titolo",barcodes.valueAt(0).rawValue);
+                            detected.putExtras(bundle);
                             startActivity(detected);
                         }
                     });
