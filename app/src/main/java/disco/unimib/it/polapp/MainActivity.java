@@ -10,12 +10,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -36,25 +36,26 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final SurfaceView cameraView = (SurfaceView) findViewById(R.id.camera_view);
+        final TextView textView = (TextView) findViewById(R.id.textView2);
 
         final Button scanButton = (Button) findViewById(R.id.scan_button);
+
+        final SurfaceView cameraView = (SurfaceView) findViewById(R.id.camera_view);
+        BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext())
+                .setBarcodeFormats(Barcode.QR_CODE)
+                .build();
+        final CameraSource cameraSource = new CameraSource.Builder(this, detector)
+                .setAutoFocusEnabled(true)
+                .build();
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textView.setVisibility(View.GONE);
                 cameraView.setVisibility(View.VISIBLE);
                 scanButton.setVisibility(View.GONE);
             }
         });
-
-        BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext())
-                .setBarcodeFormats(Barcode.QR_CODE)
-                .build();
-
-        final CameraSource cameraSource = new CameraSource.Builder(this, detector)
-                .setAutoFocusEnabled(true)
-                .build();
 
         cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -72,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                /*try {
-                    cameraSource.start(cameraView.getHolder());
-                } catch (IOException ie) {
-                    Log.e("CAMERA SOURCE", ie.getMessage());
-                }*/
             }
 
             @Override
@@ -88,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
             public void surfaceDestroyed(SurfaceHolder holder) {
                 cameraSource.stop();
             }
+
         });
+
 
         detector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
@@ -101,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
                 if (barcodes.size() != 0) {
-                    final AlertDialog.Builder builder= new AlertDialog.Builder(MainActivity.this);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage("Codice rilevato: " + barcodes.valueAt(0).rawValue);
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent detected = new Intent(MainActivity.this,DetectedActivity.class);
-                            Bundle bundle=new Bundle();
-                            bundle.putString("titolo",barcodes.valueAt(0).rawValue);
+                            Intent detected = new Intent(MainActivity.this, DetectedActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("titolo", barcodes.valueAt(0).rawValue);
                             detected.putExtras(bundle);
                             startActivity(detected);
                         }
@@ -131,5 +129,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

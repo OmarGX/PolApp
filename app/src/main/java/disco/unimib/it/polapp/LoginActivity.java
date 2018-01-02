@@ -2,6 +2,8 @@ package disco.unimib.it.polapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedp=getSharedPreferences(MyPref,MODE_PRIVATE);
+        View root=findViewById(R.id.rootview);
         Boolean isFirstTime=sharedp.getBoolean(firstTime,true);
         if(isFirstTime==false){
-            Toast.makeText(LoginActivity.this,"Bentornato!",Toast.LENGTH_LONG).show();
             Intent openMain=new Intent(LoginActivity.this,MainActivity.class);
             startActivity(openMain);
         }else {
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(cognome, C);
                     editor.putBoolean(firstTime, false);
                     editor.apply();
-                    Toast.makeText(LoginActivity.this, "Grazie!", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.rootview),"Dati Salvati!",Snackbar.LENGTH_LONG).show();
                     Intent openMain = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(openMain);
                 }

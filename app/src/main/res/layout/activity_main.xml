@@ -21,7 +21,9 @@
         android:layout_height="wrap_content"
         android:text="Scansiona il QR Code"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"/>
 
     <SurfaceView
         android:layout_width="match_parent"
@@ -29,5 +31,18 @@
         android:layout_below="@+id/toolbar"
         android:id="@+id/camera_view"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="38dp"
+        android:text="Clicca su questo bottone per iniziare la scansione del Qr Code dell'area ecologica"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        />
 
 </RelativeLayout>

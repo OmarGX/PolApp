@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="disco.unimib.it.polapp.LoginActivity"
@@ -26,50 +27,79 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/salva"
-        android:layout_marginBottom="28dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp" />
+        android:layout_marginRight="28dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="36dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/cardView"
+        android:layout_alignRight="@+id/cardView"
+        android:layout_alignEnd="@+id/cardView" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/nome"
-        android:layout_below="@+id/toolbar3"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp" />
+        android:layout_below="@+id/toolbar3"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="@dimen/cardview_default_elevation"
+        android:layout_height="wrap_content">
 
-    <Spinner
-        android:id="@+id/spinner10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="165dp">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="69dp"
-        android:text="@string/cognome"
-        android:layout_below="@+id/spinner10"
-        android:layout_alignLeft="@+id/spinner10"
-        android:layout_alignStart="@+id/spinner10" />
+            <ImageView
+                android:id="@+id/imageview5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/imageview6"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/imageview6"
+                android:layout_marginTop="27dp"
+                app:srcCompat="@drawable/ic_school_black_24dp" />
 
-    <Spinner
-        android:id="@+id/spinner11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+
+            <Spinner
+                android:id="@+id/spinner11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/spinner10"
+                android:layout_alignStart="@+id/spinner10"
+                android:layout_below="@+id/imageview5"
+                android:layout_marginTop="38dp"
+                android:gravity="center">
+
+            </Spinner>
+
+            <ImageView
+                android:id="@+id/imageview6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/spinner11"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/spinner11"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                app:srcCompat="@drawable/ic_account_box_black_24dp" />
+
+            <Spinner
+                android:id="@+id/spinner10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/spinner11"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_toEndOf="@+id/imageview5"
+                android:layout_toRightOf="@+id/imageview5"
+                android:gravity="center">
+
+            </Spinner>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </RelativeLayout>
