@@ -1,15 +1,19 @@
 package disco.unimib.it.polapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,9 +28,18 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
 
     private static final String TAG = "MainActivity";
+
+    public boolean isCameraOpen=false;
+
+    SurfaceView cameraView;
+
+    CameraSource cameraSource;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +53,25 @@ public class MainActivity extends AppCompatActivity {
 
         final Button scanButton = (Button) findViewById(R.id.scan_button);
 
-        final SurfaceView cameraView = (SurfaceView) findViewById(R.id.camera_view);
+        cameraView = (SurfaceView) findViewById(R.id.camera_view);
+
         BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext())
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
-        final CameraSource cameraSource = new CameraSource.Builder(this, detector)
+        cameraSource = new CameraSource.Builder(this, detector)
                 .setAutoFocusEnabled(true)
                 .build();
+
+
+        if(savedInstanceState!=null){
+            if(savedInstanceState.getBoolean("cameraopen")==true){
+                cameraView.setVisibility(View.VISIBLE);
+                scanButton.setVisibility(View.GONE);
+                toolbar.setVisibility(View.GONE);
+                textView.setVisibility(View.GONE);
+
+            }
+        }
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setVisibility(View.GONE);
                 cameraView.setVisibility(View.VISIBLE);
                 scanButton.setVisibility(View.GONE);
+                toolbar.setVisibility(View.GONE);
             }
         });
 
@@ -114,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            textView.setVisibility(View.VISIBLE);
                             scanButton.setVisibility(View.VISIBLE);
                             cameraView.setVisibility(View.GONE);
                         }
@@ -134,5 +161,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("cameraopen", true);
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String [] permissions, @NonNull int [] grantResults){
+        if(grantResults.length==1 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+            Log.i(TAG,"camera permission granted, showing preview");
+            try {
+                cameraSource.start(cameraView.getHolder());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        }
     }
 }
