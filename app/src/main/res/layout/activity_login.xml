@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootview"
+    android:id="@+id/loginlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="disco.unimib.it.polapp.LoginActivity"
@@ -30,6 +30,7 @@
         android:layout_marginRight="28dp"
         android:layout_marginEnd="28dp"
         android:layout_marginTop="36dp"
+        android:elevation="2dp"
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:layout_below="@+id/cardView"
@@ -65,11 +66,11 @@
 
 
             <Spinner
-                android:id="@+id/spinner11"
+                android:id="@+id/spinner_ruoli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/spinner10"
-                android:layout_alignStart="@+id/spinner10"
+                android:layout_alignLeft="@+id/spinner_aree"
+                android:layout_alignStart="@+id/spinner_aree"
                 android:layout_below="@+id/imageview5"
                 android:layout_marginTop="38dp"
                 android:gravity="center">
@@ -80,21 +81,22 @@
                 android:id="@+id/imageview6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/spinner11"
+                android:layout_alignBottom="@+id/spinner_ruoli"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/spinner11"
+                android:layout_alignTop="@+id/spinner_ruoli"
                 android:layout_marginLeft="14dp"
                 android:layout_marginStart="14dp"
                 app:srcCompat="@drawable/ic_account_box_black_24dp" />
 
             <Spinner
-                android:id="@+id/spinner10"
+                android:id="@+id/spinner_aree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/spinner11"
+                android:layout_above="@+id/spinner_ruoli"
                 android:layout_marginLeft="17dp"
                 android:layout_marginStart="17dp"
+                android:layout_alignTop="@id/imageview5"
                 android:layout_toEndOf="@+id/imageview5"
                 android:layout_toRightOf="@+id/imageview5"
                 android:gravity="center">

@@ -29,6 +29,26 @@
         <item>75%</item>
         <item>100%</item>
     </string-array>
+    <string name="errore">ERRORE!</string>
+    <string name="testoerrore">Seleziona tutti i livelli di riempimento per inviare la notifica!</string>
+    <string name="invionotifica">Invio Notifica</string>
+    <string name="message">Tutti i livelli sono stati inseriti</string>
+    <string name="snackbar">Dati salvati!</string>
+    <string name="snackbaraction">CONTINUA</string>
+    <string name="problem">Segnala un Problema</string>
+    <string name="send">Invia</string>
+    <string name="ok">Ok</string>
+    <string name="cestinoindiff">Indifferenziato</string>
+    <string name="cestinocarta">Carta</string>
+    <string name="cestinoplastica">Plastica</string>
+    <string name="cestinovetro">Vetro</string>
+    <string name="indicazionivuoto">"premi per inserire il livello di riempimento"</string>
+    <string name="indicazionipieno">livello riempimento: </string>
+    <string name="scanqr">Scansiona il QR Code</string>
+    <string name="helpqr">Clicca su questo bottone per iniziare la scansione del Qr Code dell\'area ecologica</string>
+    <string name="description">Descrivi il problema</string>
+    <string name="photo">Allega Foto</string>
+    <string name="photosaved">Foto Salvata</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

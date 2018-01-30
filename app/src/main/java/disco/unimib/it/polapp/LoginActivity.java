@@ -2,7 +2,6 @@ package disco.unimib.it.polapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,35 +9,34 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 
 public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedp;
-    public static final String MyPref = "MyPrefs" ;
-    public static final String Nome = "nameKey";
-    public static final String cognome = "surnameKey";
-    public static final String firstTime = "RegisteredKey";
+    private static final String MyPref = "MyPrefs" ;
+    private static final String Nome = "nameKey";
+    private static final String cognome = "surnameKey";
+    private static final String firstTime = "RegisteredKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedp=getSharedPreferences(MyPref,MODE_PRIVATE);
-        View root=findViewById(R.id.rootview);
         Boolean isFirstTime=sharedp.getBoolean(firstTime,true);
         if(isFirstTime==false){
             Intent openMain=new Intent(LoginActivity.this,MainActivity.class);
             startActivity(openMain);
         }else {
             setContentView(R.layout.activity_login);
+            final View root=findViewById(R.id.loginlayout);
 
             final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
             setSupportActionBar(toolbar);
-            setTitle("PolApp");
+            setTitle(R.string.app_name);
 
-            final Spinner ed1 = (Spinner) findViewById(R.id.spinner10);
-            final Spinner ed2 = (Spinner) findViewById(R.id.spinner11);
+            final Spinner ed1 = (Spinner) findViewById(R.id.spinner_aree);
+            final Spinner ed2 = (Spinner) findViewById(R.id.spinner_ruoli);
 
             ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.areeuniv,android.R.layout.simple_spinner_dropdown_item);
             adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -61,9 +59,15 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(cognome, C);
                     editor.putBoolean(firstTime, false);
                     editor.apply();
-                    Snackbar.make(findViewById(R.id.rootview),"Dati Salvati!",Snackbar.LENGTH_LONG).show();
-                    Intent openMain = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(openMain);
+                    Snackbar.make(root,R.string.snackbar,Snackbar.LENGTH_INDEFINITE).
+                            setAction(R.string.snackbaraction, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent openMain = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(openMain);
+                                }
+                            })
+                            .show();
                 }
 
             });

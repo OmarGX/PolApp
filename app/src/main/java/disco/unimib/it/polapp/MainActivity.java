@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private static final String TAG = "MainActivity";
 
-    public boolean isCameraOpen=false;
+    private boolean isCameraOpen;
 
     SurfaceView cameraView;
 
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, String.valueOf(isCameraOpen));
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 scanButton.setVisibility(View.GONE);
                 toolbar.setVisibility(View.GONE);
                 textView.setVisibility(View.GONE);
+                isCameraOpen=true;
 
             }
         }
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 cameraView.setVisibility(View.VISIBLE);
                 scanButton.setVisibility(View.GONE);
                 toolbar.setVisibility(View.GONE);
+                isCameraOpen=true;
             }
         });
 
@@ -161,14 +164,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("cameraopen", true);
+        savedInstanceState.putBoolean("cameraopen", isCameraOpen);
     }
 
     @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String [] permissions, @NonNull int [] grantResults){
         if(grantResults.length==1 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-            Log.i(TAG,"camera permission granted, showing preview");
             try {
                 cameraSource.start(cameraView.getHolder());
             } catch (IOException e) {

@@ -72,7 +72,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CestinoViewHolder>
             mCestino = cestino;
 
             tipo.setText(mCestino.getTipo());
-            indicazioni.setText("clicca per inserire il livello di riempimento");
+            if(cestino.getLivriempimento()==-1) {
+                indicazioni.setText(R.string.indicazionivuoto);
+            }else{
+                indicazioni.setText("Livello Riempimento: "+cestino.getLivriempimento()+"%");
+            }
             fotocestino.setImageResource(R.drawable.ic_delete_black_24dp);
         }
 
