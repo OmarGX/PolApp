@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -101,6 +102,7 @@ public class DetectedActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
+                                    Snackbar.make(findViewById(R.id.detected),R.string.sentdata,Snackbar.LENGTH_LONG).show();
                                 }
                             });
                             builder3.setNeutralButton(R.string.problem, new DialogInterface.OnClickListener() {

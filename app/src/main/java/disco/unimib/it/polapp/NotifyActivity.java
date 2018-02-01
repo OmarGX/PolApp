@@ -59,11 +59,11 @@ public class NotifyActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle(R.string.problem);
 
-        final Button button3=(Button) findViewById(R.id.button3);
-        final Button button4=(Button) findViewById(R.id.button4);
+        final Button buttonsend=(Button) findViewById(R.id.button3);
+        final Button buttonimage=(Button) findViewById(R.id.button4);
         photoSaved=(ImageView) findViewById(R.id.photoSaved);
 
-        button4.setOnClickListener(new View.OnClickListener() {
+        buttonimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TakePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -89,7 +89,7 @@ public class NotifyActivity extends AppCompatActivity {
             }
         });
 
-        button3.setOnClickListener(new View.OnClickListener() {
+        buttonsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Snackbar.make(findViewById(R.id.notify),R.string.notificationsent,Snackbar.LENGTH_LONG);

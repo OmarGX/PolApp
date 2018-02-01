@@ -57,6 +57,7 @@
     <string name="photo">Allega Foto</string>
     <string name="photosaved">Foto Salvata</string>
     <string name="notificationsent">Notifica Inviata!</string>
+    <string name="sentdata">Dati Inviati</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
