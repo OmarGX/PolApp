@@ -61,7 +61,7 @@ public class DetectedActivity extends AppCompatActivity {
                         .setItems(R.array.percentuali, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                int [] values={0,25,50,75,100};
+                                int [] values=getResources().getIntArray(R.array.values);
                                 bidoni.get(position).setLivriempimento(values[which]);
                                 adapter.notifyItemChanged(position);
                             }

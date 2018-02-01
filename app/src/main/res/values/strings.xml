@@ -29,6 +29,13 @@
         <item>75%</item>
         <item>100%</item>
     </string-array>
+    <integer-array name="values">
+        <item>0</item>
+        <item>25</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+    </integer-array>
     <string name="errore">ERRORE!</string>
     <string name="testoerrore">Seleziona tutti i livelli di riempimento per inviare la notifica!</string>
     <string name="invionotifica">Invio Notifica</string>

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,14 +42,12 @@
     <Button
         android:id="@+id/button3"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="27dp"
+        android:layout_alignEnd="@+id/editText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/editText"
+        android:layout_marginBottom="18dp"
         android:background="@color/colorPrimary"
         android:elevation="2dp"
         android:text="@string/send"
@@ -52,15 +55,32 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="match_parent"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button3"
-        android:layout_alignStart="@+id/button3"
-        android:layout_below="@+id/button3"
-        android:layout_marginTop="26dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorPrimary"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/editText"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/ic_photo_camera_black_24dp"
         android:elevation="2dp"
         android:text="@string/photo"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/photoSaved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button4"
+        android:layout_alignStart="@+id/button4"
+        android:layout_below="@+id/button4"
+        android:layout_above="@+id/button3"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
 </RelativeLayout>
+</ScrollView>
