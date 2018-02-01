@@ -67,7 +67,8 @@
         android:text="@string/photo"
         android:textColor="@android:color/black"
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:drawablePadding="16dp" />
 
     <ImageView
         android:id="@+id/photoSaved"
