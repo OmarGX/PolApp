@@ -1,6 +1,6 @@
 package disco.unimib.it.polapp;
 
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -162,7 +162,7 @@ public class DetectedActivity extends AppCompatActivity {
         bidoni.add(new Cestino(-1,"Indifferenziato"));
         bidoni.add(new Cestino(-1,"Carta"));
         bidoni.add(new Cestino(-1,"Plastica"));
-        bidoni.add(new Cestino(-1,"Vetro"));
+
     }
 
     private void uploadData(){
@@ -200,7 +200,6 @@ public class DetectedActivity extends AppCompatActivity {
                 params.put("indifferenziato",String.valueOf(bidoni.get(0).getLivriempimento()));
                 params.put("carta",String.valueOf(bidoni.get(1).getLivriempimento()));
                 params.put("plastica",String.valueOf(bidoni.get(2).getLivriempimento()));
-                params.put("vetro",String.valueOf(bidoni.get(3).getLivriempimento()));
                 return params;
             }
         };

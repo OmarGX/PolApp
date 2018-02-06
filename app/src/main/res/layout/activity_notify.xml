@@ -75,15 +75,15 @@
 
     <ImageView
         android:id="@+id/photoSaved"
-        android:layout_width="350dp"
+        android:layout_width="375dp"
         android:layout_height="300dp"
         android:layout_above="@+id/buttonsend"
         android:layout_alignLeft="@+id/buttonphoto"
         android:layout_alignStart="@+id/buttonphoto"
+        android:layout_alignRight="@+id/buttonsend"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/buttonphoto"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp" />
 </RelativeLayout>
 </ScrollView>

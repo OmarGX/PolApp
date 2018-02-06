@@ -77,7 +77,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CestinoViewHolder>
             }else{
                 indicazioni.setText("Livello Riempimento: "+cestino.getLivriempimento()+"%");
             }
-            fotocestino.setImageResource(R.drawable.ic_delete_black_24dp);
+            switch (cestino.getTipo()){
+                case "Indifferenziato": fotocestino.setImageResource(R.drawable.ic_delete_blue_24dp);
+                break;
+                case "Carta": fotocestino.setImageResource(R.drawable.ic_delete_yellow_24dp);
+                break;
+                case "Plastica" : fotocestino.setImageResource(R.drawable.ic_delete_red_24dp);
+                break;
+                default : fotocestino.setImageResource(R.drawable.ic_delete_black_24dp);
+            }
+
+
         }
 
         @Override
