@@ -26,6 +26,9 @@ public class LoginActivity extends AppCompatActivity {
         Boolean isFirstTime=sharedp.getBoolean(firstTime,true);
         if(isFirstTime==false){
             Intent openMain=new Intent(LoginActivity.this,MainActivity.class);
+            openMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            openMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            openMain.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(openMain);
         }else {
             setContentView(R.layout.activity_login);
