@@ -46,6 +46,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".NotifyActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

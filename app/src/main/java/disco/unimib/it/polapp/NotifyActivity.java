@@ -17,18 +17,33 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class NotifyActivity extends AppCompatActivity {
@@ -45,6 +60,16 @@ public class NotifyActivity extends AppCompatActivity {
 
     ImageView photoSaved;
 
+    Bitmap rotatedimg;
+
+    private String uploadUrl="http://192.168.1.228/PolApp/testupload.php";
+
+    String zona;
+
+    EditText problema;
+
+    Button buttonsend;
+
 
 
 
@@ -52,15 +77,19 @@ public class NotifyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify);
+        Bundle bundle=getIntent().getExtras();
+        zona=bundle.getString("zona");
 
 
         final Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
         setTitle(R.string.problem);
 
-        final Button buttonsend=(Button) findViewById(R.id.button3);
-        final Button buttonimage=(Button) findViewById(R.id.button4);
+        buttonsend=(Button) findViewById(R.id.buttonsend);
+        final Button buttonimage=(Button) findViewById(R.id.buttonphoto);
         photoSaved=(ImageView) findViewById(R.id.photoSaved);
+        problema=(EditText) findViewById(R.id.problemdescr);
+
 
         buttonimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +120,7 @@ public class NotifyActivity extends AppCompatActivity {
         buttonsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(findViewById(R.id.notify),R.string.notificationsent,Snackbar.LENGTH_LONG);
+                uploadImage();
             }
         });
     }
@@ -113,7 +142,6 @@ public class NotifyActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         int orientation=ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
-        Bitmap rotatedimg=null;
         switch(orientation) {
 
             case ExifInterface.ORIENTATION_ROTATE_90:
@@ -132,8 +160,7 @@ public class NotifyActivity extends AppCompatActivity {
             default:
                 rotatedimg = image;
         }
-        if(image!=null){
-            Snackbar.make(findViewById(R.id.notify),R.string.photosaved,Snackbar.LENGTH_LONG).show();
+        if(rotatedimg!=null){
             photoSaved.setImageBitmap(rotatedimg);
         }
     }
@@ -142,7 +169,6 @@ public class NotifyActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        Log.d("ciao", String.valueOf(getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
@@ -171,4 +197,55 @@ public class NotifyActivity extends AppCompatActivity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
                 matrix, true);
     }
+
+    public String imgToString(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        byte [] img=byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(img, Base64.DEFAULT);
+    }
+
+    private void uploadImage(){
+        RequestQueue queue= Volley.newRequestQueue(NotifyActivity.this);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, uploadUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject=new JSONObject(response);
+                            String rsp=jsonObject.getString("response");
+                            problema.setText("");
+                            buttonsend.setVisibility(View.GONE);
+                            Snackbar.make(findViewById(R.id.notify),rsp,Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbaraction, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent openMain = new Intent(NotifyActivity.this, MainActivity.class);
+                                    startActivity(openMain);
+                                }
+                            })
+                                    .show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        })
+        {
+            @Override
+            protected Map<String,String> getParams() throws AuthFailureError{
+                Map<String,String> params=new HashMap<>();
+                params.put("image",imgToString(rotatedimg));
+                params.put("text",problema.getText().toString().trim());
+                params.put("name",zona);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fillViewport="true">
@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/notify"
     tools:context="disco.unimib.it.polapp.NotifyActivity">
 
@@ -25,7 +25,7 @@
         tools:layout_editor_absoluteY="3dp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/problemdescr"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,35 +35,35 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:maxLength="140"
+        android:maxLength="80"
         android:hint="@string/description"
         android:inputType="textMultiLine|textLongMessage"
         android:selectAllOnFocus="false"
         android:singleLine="false" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonsend"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editText"
+        android:layout_alignEnd="@+id/problemdescr"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/editText"
+        android:layout_alignRight="@+id/problemdescr"
         android:layout_marginBottom="18dp"
-        android:layout_above="@id/button4"
+        android:layout_above="@id/buttonphoto"
         android:background="@color/colorPrimary"
         android:elevation="2dp"
         android:text="@string/send"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/background_light" tools:targetApi="lollipop" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/buttonphoto"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_below="@+id/editText"
+        android:layout_alignLeft="@+id/problemdescr"
+        android:layout_alignStart="@+id/problemdescr"
+        android:layout_below="@+id/problemdescr"
         android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_photo_camera_black_24dp"
         android:elevation="2dp"
@@ -71,20 +71,19 @@
         android:textColor="@android:color/black"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:drawablePadding="16dp" />
+        android:drawablePadding="16dp" android:drawableStart="@drawable/ic_photo_camera_black_24dp" tools:targetApi="lollipop" />
 
     <ImageView
         android:id="@+id/photoSaved"
         android:layout_width="350dp"
         android:layout_height="300dp"
-        android:layout_alignLeft="@+id/button4"
-        android:layout_alignStart="@+id/button4"
-        android:layout_below="@+id/button4"
-        android:layout_above="@+id/button3"
+        android:layout_above="@+id/buttonsend"
+        android:layout_alignLeft="@+id/buttonphoto"
+        android:layout_alignStart="@+id/buttonphoto"
+        android:layout_below="@+id/buttonphoto"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        />
+        android:layout_marginTop="16dp" />
 </RelativeLayout>
 </ScrollView>

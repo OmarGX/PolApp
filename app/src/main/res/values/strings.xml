@@ -53,7 +53,7 @@
     <string name="indicazionipieno">livello riempimento: </string>
     <string name="scanqr">Scansiona il QR Code</string>
     <string name="helpqr">Clicca su questo bottone per iniziare la scansione del Qr Code dell\'area ecologica</string>
-    <string name="description">Descrivi il problema</string>
+    <string name="description">Descrivi il problema brevemente</string>
     <string name="photo">Allega Foto</string>
     <string name="photosaved">Foto Salvata</string>
     <string name="notificationsent">Notifica Inviata!</string>

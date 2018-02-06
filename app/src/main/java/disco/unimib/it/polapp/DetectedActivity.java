@@ -12,12 +12,30 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DetectedActivity extends AppCompatActivity {
 
     private List<Cestino> bidoni= new ArrayList<>();
+
+    private String url="http://192.168.1.228/PolApp/testuploaddata.php";
+
+    String name;
 
 
 
@@ -28,6 +46,8 @@ public class DetectedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detected);
         Bundle bundle=getIntent().getExtras();
+
+        name=bundle.getString("titolo");
 
 
 
@@ -102,13 +122,16 @@ public class DetectedActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    Snackbar.make(findViewById(R.id.detected),R.string.sentdata,Snackbar.LENGTH_LONG).show();
+                                    uploadData();
                                 }
                             });
                             builder3.setNeutralButton(R.string.problem, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent openNotify=new Intent(DetectedActivity.this, NotifyActivity.class);
+                                    Bundle pack=new Bundle();
+                                    pack.putString("zona",name);
+                                    openNotify.putExtras(pack);
                                     startActivity(openNotify);
                                 }
                             });
@@ -141,4 +164,47 @@ public class DetectedActivity extends AppCompatActivity {
         bidoni.add(new Cestino(-1,"Plastica"));
         bidoni.add(new Cestino(-1,"Vetro"));
     }
+
+    private void uploadData(){
+        RequestQueue queue= Volley.newRequestQueue(this);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String rsp=jsonObject.getString("response");
+                    Snackbar.make(findViewById(R.id.detected),rsp,Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.snackbaraction, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent openMain = new Intent(DetectedActivity.this, MainActivity.class);
+                                    startActivity(openMain);
+                                }
+                            }).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        })
+        {
+            @Override
+            protected Map<String,String> getParams() throws AuthFailureError{
+                Map<String,String> params=new HashMap<>();
+                params.put("zona",name);
+                params.put("indifferenziato",String.valueOf(bidoni.get(0).getLivriempimento()));
+                params.put("carta",String.valueOf(bidoni.get(1).getLivriempimento()));
+                params.put("plastica",String.valueOf(bidoni.get(2).getLivriempimento()));
+                params.put("vetro",String.valueOf(bidoni.get(3).getLivriempimento()));
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
 }
