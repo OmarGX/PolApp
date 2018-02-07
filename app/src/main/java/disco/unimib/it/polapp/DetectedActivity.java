@@ -131,6 +131,10 @@ public class DetectedActivity extends AppCompatActivity {
                                     Intent openNotify=new Intent(DetectedActivity.this, NotifyActivity.class);
                                     Bundle pack=new Bundle();
                                     pack.putString("zona",name);
+                                    pack.putString("indifferenziato",String.valueOf(bidoni.get(0).getLivriempimento()));
+                                    pack.putString("carta",String.valueOf(bidoni.get(1).getLivriempimento()));
+                                    pack.putString("plastica",String.valueOf(bidoni.get(2).getLivriempimento()));
+                                    pack.putString("vetro",String.valueOf(bidoni.get(3).getLivriempimento()));
                                     openNotify.putExtras(pack);
                                     startActivity(openNotify);
                                 }
@@ -161,7 +165,8 @@ public class DetectedActivity extends AppCompatActivity {
     private void Initialize(){
         bidoni.add(new Cestino(-1,"Indifferenziato"));
         bidoni.add(new Cestino(-1,"Carta"));
-        bidoni.add(new Cestino(-1,"Plastica"));
+        bidoni.add(new Cestino(-1,"Plastica e Metallo"));
+        bidoni.add(new Cestino(-1,"Vetro"));
 
     }
 
@@ -200,6 +205,7 @@ public class DetectedActivity extends AppCompatActivity {
                 params.put("indifferenziato",String.valueOf(bidoni.get(0).getLivriempimento()));
                 params.put("carta",String.valueOf(bidoni.get(1).getLivriempimento()));
                 params.put("plastica",String.valueOf(bidoni.get(2).getLivriempimento()));
+                params.put("vetro",String.valueOf(bidoni.get(3).getLivriempimento()));
                 return params;
             }
         };

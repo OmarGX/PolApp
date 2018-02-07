@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
         if(savedInstanceState!=null){
-            if(savedInstanceState.getBoolean("cameraopen")==true){
+            if(savedInstanceState.getBoolean("cameraopen")){
                 cameraView.setVisibility(View.VISIBLE);
                 scanButton.setVisibility(View.GONE);
                 toolbar.setVisibility(View.GONE);

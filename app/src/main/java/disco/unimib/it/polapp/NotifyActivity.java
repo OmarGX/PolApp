@@ -47,6 +47,8 @@ import java.util.Map;
 
 public class NotifyActivity extends AppCompatActivity {
 
+    private String url="http://192.168.1.228/PolApp/testuploaddata.php";
+
     Bitmap image;
 
     String mCurrentPhotoPath;
@@ -57,17 +59,25 @@ public class NotifyActivity extends AppCompatActivity {
 
     Intent TakePictureIntent;
 
-    ImageView photoSaved;
+    ImageView photoSaved, photoSaved2, photoSaved3, photoSaved4;
+
+    Button cancelButton, cancelButton2, cancelButton3, cancelButton4;
 
     Bitmap rotatedimg;
 
     private String uploadUrl="http://192.168.1.228/PolApp/testupload.php";
 
-    String zona;
+    String zona, indifferenziato, carta, plastica, vetro;
+
+    Button buttonimage;
 
     EditText problema;
 
     Button buttonsend;
+
+    int photoCount=0;
+
+    RequestQueue queue;
 
 
 
@@ -78,16 +88,85 @@ public class NotifyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notify);
         Bundle bundle=getIntent().getExtras();
         zona=bundle.getString("zona");
+        indifferenziato=bundle.getString("indifferenziato");
+        carta=bundle.getString("carta");
+        plastica=bundle.getString("plastica");
+        vetro=bundle.getString("vetro");
 
 
         final Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
         setTitle(R.string.problem);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         buttonsend=(Button) findViewById(R.id.buttonsend);
-        final Button buttonimage=(Button) findViewById(R.id.buttonphoto);
+
+        buttonimage=(Button) findViewById(R.id.buttonphoto);
+        if(photoCount==4){
+            buttonimage.setVisibility(View.GONE);
+        }
+
         photoSaved=(ImageView) findViewById(R.id.photoSaved);
+        photoSaved2=(ImageView) findViewById(R.id.photoSaved2);
+        photoSaved3=(ImageView) findViewById(R.id.photoSaved3);
+        photoSaved4=(ImageView) findViewById(R.id.photoSaved4);
+
         problema=(EditText) findViewById(R.id.problemdescr);
+
+        cancelButton=(Button) findViewById(R.id.cancel_button);
+        cancelButton.setVisibility(View.GONE);
+        cancelButton2=(Button) findViewById(R.id.cancel_button2);
+        cancelButton2.setVisibility(View.GONE);
+        cancelButton3=(Button) findViewById(R.id.cancel_button3);
+        cancelButton3.setVisibility(View.GONE);
+        cancelButton4=(Button) findViewById(R.id.cancel_button4);
+        cancelButton4.setVisibility(View.GONE);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoSaved.setImageDrawable(null);
+                cancelButton.setVisibility(View.GONE);
+                photoCount--;
+                buttonimage.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        cancelButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoSaved2.setImageDrawable(null);
+                cancelButton2.setVisibility(View.GONE);
+                photoCount--;
+                buttonimage.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        cancelButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoSaved3.setImageDrawable(null);
+                cancelButton3.setVisibility(View.GONE);
+                photoCount--;
+                buttonimage.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        cancelButton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoSaved4.setImageDrawable(null);
+                cancelButton4.setVisibility(View.GONE);
+                photoCount--;
+                buttonimage.setVisibility(View.VISIBLE);
+
+            }
+        });
 
 
         buttonimage.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +198,9 @@ public class NotifyActivity extends AppCompatActivity {
         buttonsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                queue=Volley.newRequestQueue(NotifyActivity.this);
                 uploadImage();
+                uploadData();
             }
         });
     }
@@ -160,7 +241,28 @@ public class NotifyActivity extends AppCompatActivity {
                 rotatedimg = image;
         }
         if(rotatedimg!=null){
-            photoSaved.setImageBitmap(rotatedimg);
+            photoCount++;
+            if(photoCount==1) {
+                photoSaved.setImageBitmap(rotatedimg);
+                cancelButton.setVisibility(View.VISIBLE);
+            }else if(photoSaved.getDrawable()==null){
+                photoSaved.setImageBitmap(rotatedimg);
+                cancelButton.setVisibility(View.VISIBLE);
+            }else if(photoSaved2.getDrawable()==null){
+                photoSaved2.setImageBitmap(rotatedimg);
+                cancelButton2.setVisibility(View.VISIBLE);
+            }else if(photoSaved3.getDrawable()==null){
+                photoSaved3.setImageBitmap(rotatedimg);
+                cancelButton3.setVisibility(View.VISIBLE);
+            }else if(photoSaved4.getDrawable()==null){
+                photoSaved4.setImageBitmap(rotatedimg);
+                cancelButton4.setVisibility(View.VISIBLE);
+            }
+            if(photoCount==4){
+                buttonimage.setVisibility(View.GONE);
+            }else{
+                buttonimage.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -204,8 +306,13 @@ public class NotifyActivity extends AppCompatActivity {
         return Base64.encodeToString(img, Base64.DEFAULT);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void uploadImage(){
-        RequestQueue queue= Volley.newRequestQueue(NotifyActivity.this);
         StringRequest stringRequest=new StringRequest(Request.Method.POST, uploadUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -246,5 +353,49 @@ public class NotifyActivity extends AppCompatActivity {
         };
         queue.add(stringRequest);
     }
+    private void uploadData(){
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String rsp=jsonObject.getString("response");
+                    Snackbar.make(findViewById(R.id.detected),rsp,Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.snackbaraction, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent openMain = new Intent(NotifyActivity.this, MainActivity.class);
+                                    startActivity(openMain);
+                                }
+                            }).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        })
+        {
+            @Override
+            protected Map<String,String> getParams() throws AuthFailureError{
+                Map<String,String> params=new HashMap<>();
+                params.put("zona",zona);
+                params.put("indifferenziato",indifferenziato);
+                params.put("carta",carta);
+                params.put("plastica",plastica);
+                params.put("vetro",vetro);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
 
 }
+
+
+
+

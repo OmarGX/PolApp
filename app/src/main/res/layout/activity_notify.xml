@@ -50,9 +50,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/toolbar4"
             tools:context="disco.unimib.it.polapp.NotifyActivity">
 
 
@@ -68,7 +65,7 @@
                 android:ems="10"
                 android:hint="@string/description"
                 android:inputType="textMultiLine|textLongMessage"
-                android:maxLength="80"
+                android:maxLength="140"
                 android:selectAllOnFocus="false"
                 android:singleLine="false" />
 
@@ -94,15 +91,96 @@
 
             <ImageView
                 android:id="@+id/photoSaved"
-                android:layout_width="375dp"
-                android:layout_height="300dp"
-                android:layout_alignLeft="@+id/buttonphoto"
-                android:layout_alignStart="@+id/buttonphoto"
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/buttonphoto"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"/>
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="36dp"
+                android:layout_height="48dp"
+                android:layout_alignBottom="@id/photoSaved"
+                android:layout_alignLeft="@id/photoSaved"
+                android:layout_alignStart="@id/photoSaved"
+                android:elevation="2dp"
+                android:text="@string/cancel_button"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/photoSaved2"
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:layout_alignEnd="@+id/problemdescr"
+                android:layout_alignRight="@+id/problemdescr"
+                android:layout_alignTop="@+id/photoSaved" />
+
+            <Button
+                android:id="@+id/cancel_button2"
+                android:layout_width="36dp"
+                android:layout_height="48dp"
+                android:layout_alignBottom="@id/photoSaved2"
+                android:layout_alignLeft="@id/photoSaved2"
+                android:layout_alignStart="@id/photoSaved2"
+                android:elevation="2dp"
+                android:text="@string/cancel_button"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/photoSaved3"
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/photoSaved"/>
+
+            <Button
+                android:id="@+id/cancel_button3"
+                android:layout_width="36dp"
+                android:layout_height="48dp"
+                android:layout_alignBottom="@id/photoSaved3"
+                android:layout_alignLeft="@id/photoSaved3"
+                android:layout_alignStart="@id/photoSaved3"
+                android:elevation="2dp"
+                android:text="@string/cancel_button"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/photoSaved4"
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:layout_alignLeft="@+id/photoSaved2"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@+id/photoSaved2"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/photoSaved2"/>
+
+            <Button
+                android:id="@+id/cancel_button4"
+                android:layout_width="36dp"
+                android:layout_height="48dp"
+                android:layout_alignBottom="@+id/photoSaved4"
+                android:layout_alignLeft="@id/photoSaved4"
+                android:layout_alignStart="@id/photoSaved4"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:elevation="2dp"
+                android:text="@string/cancel_button"
+                android:textStyle="bold" />
+
 
         </RelativeLayout>
     </ScrollView>
+
+
 </RelativeLayout>

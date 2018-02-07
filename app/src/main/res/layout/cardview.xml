@@ -8,6 +8,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:foreground="?android:attr/selectableItemBackground"
         cardview:cardUseCompatPadding="true"
         cardview:cardCornerRadius="4dp"
@@ -27,6 +29,7 @@
                 android:id="@+id/cestino_photo"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:layout_alignBottom="@id/cestino_name"
                 android:layout_marginRight="16dp"
                 />
