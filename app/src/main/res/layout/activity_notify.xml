@@ -81,7 +81,8 @@
                 android:layout_below="@+id/buttonphoto"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:scaleType="fitStart" />
 
             <Button
                 android:id="@+id/cancel_button"
@@ -100,7 +101,8 @@
                 android:layout_height="150dp"
                 android:layout_alignEnd="@+id/problemdescr"
                 android:layout_alignRight="@+id/problemdescr"
-                android:layout_alignTop="@+id/photoSaved" />
+                android:layout_alignTop="@+id/photoSaved"
+                android:scaleType="fitStart" />
 
             <Button
                 android:id="@+id/cancel_button2"
@@ -122,7 +124,8 @@
                 android:layout_below="@id/photoSaved"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:scaleType="fitStart" />
 
             <Button
                 android:id="@+id/cancel_button3"
@@ -146,7 +149,8 @@
                 android:layout_below="@+id/photoSaved2"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:scaleType="fitStart" />
 
             <Button
                 android:id="@+id/cancel_button4"
