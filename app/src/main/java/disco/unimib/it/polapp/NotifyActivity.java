@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -19,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +51,7 @@ import java.util.Map;
 
 public class NotifyActivity extends AppCompatActivity {
 
-    private String urlValues="http://192.168.1.29/PolApp/testuploaddata.php";
+    private String urlValues="http://192.168.1.228/PolApp/testuploaddata.php";
 
     Bitmap image,imageCanc;
 
@@ -69,9 +69,9 @@ public class NotifyActivity extends AppCompatActivity {
 
     Bitmap rotatedimg;
 
-    private String urlData="http://192.168.1.29/PolApp/testupload.php";
+    private String urlData="http://192.168.1.228/PolApp/testupload.php";
 
-    private String urlImages="http://192.168.1.29/PolApp/testuploadimages.php";
+    private String urlImages="http://192.168.1.228/PolApp/testuploadimages.php";
 
     String zona, indifferenziato, carta, plastica, vetro;
 
@@ -124,12 +124,16 @@ public class NotifyActivity extends AppCompatActivity {
 
         photoSaved=(ImageView) findViewById(R.id.photoSaved);
         photoSaved.setDrawingCacheEnabled(true);
+        photoSaved.setImageDrawable(null);
         photoSaved2=(ImageView) findViewById(R.id.photoSaved2);
         photoSaved2.setDrawingCacheEnabled(true);
+        photoSaved2.setImageDrawable(null);
         photoSaved3=(ImageView) findViewById(R.id.photoSaved3);
         photoSaved3.setDrawingCacheEnabled(true);
+        photoSaved3.setImageDrawable(null);
         photoSaved4=(ImageView) findViewById(R.id.photoSaved4);
         photoSaved4.setDrawingCacheEnabled(true);
+        photoSaved4.setImageDrawable(null);
 
         problema=(EditText) findViewById(R.id.problemdescr);
 
@@ -146,6 +150,7 @@ public class NotifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 photoSaved.setImageBitmap(null);
+                photoSaved.setImageDrawable(null);
                 cancelButton.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -157,6 +162,7 @@ public class NotifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 photoSaved2.setImageBitmap(null);
+                photoSaved2.setImageDrawable(null);
                 cancelButton2.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -168,6 +174,7 @@ public class NotifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 photoSaved3.setImageBitmap(null);
+                photoSaved3.setImageDrawable(null);
                 cancelButton3.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -179,6 +186,7 @@ public class NotifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 photoSaved4.setImageBitmap(null);
+                photoSaved4.setImageDrawable(null);
                 cancelButton4.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -216,10 +224,18 @@ public class NotifyActivity extends AppCompatActivity {
         buttonsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                encodedImages.add(imgToString(photoSaved.getDrawingCache()));
-                encodedImages.add(imgToString(photoSaved2.getDrawingCache()));
-                encodedImages.add(imgToString(photoSaved3.getDrawingCache()));
-                encodedImages.add(imgToString(photoSaved4.getDrawingCache()));
+                if(photoSaved.getDrawable()!=null) {
+                    encodedImages.add(imgToString(photoSaved.getDrawingCache()));
+                }
+                if(photoSaved2.getDrawable()!=null) {
+                    encodedImages.add(imgToString(photoSaved2.getDrawingCache()));
+                }
+                if(photoSaved3.getDrawable()!=null) {
+                    encodedImages.add(imgToString(photoSaved3.getDrawingCache()));
+                }
+                if(photoSaved4.getDrawable()!=null) {
+                    encodedImages.add(imgToString(photoSaved4.getDrawingCache()));
+                }
                 queue=Volley.newRequestQueue(NotifyActivity.this);
                 JSONArray jsonArrayImages=new JSONArray();
                 for (String encoded:encodedImages) {
@@ -386,6 +402,10 @@ public class NotifyActivity extends AppCompatActivity {
                 photoSaved2.setImageBitmap(null);
                 photoSaved3.setImageBitmap(null);
                 photoSaved4.setImageBitmap(null);
+                cancelButton.setVisibility(View.GONE);
+                cancelButton2.setVisibility(View.GONE);
+                cancelButton3.setVisibility(View.GONE);
+                cancelButton4.setVisibility(View.GONE);
                 try {
                     JSONObject jsonObject=new JSONObject(response);
                     String rsp=jsonObject.getString("response");
