@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -28,9 +29,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,9 +51,9 @@ import java.util.Map;
 
 public class NotifyActivity extends AppCompatActivity {
 
-    private String url="http://192.168.1.228/PolApp/testuploaddata.php";
+    private String urlValues="http://192.168.1.29/PolApp/testuploaddata.php";
 
-    Bitmap image;
+    Bitmap image,imageCanc;
 
     String mCurrentPhotoPath;
 
@@ -65,7 +69,9 @@ public class NotifyActivity extends AppCompatActivity {
 
     Bitmap rotatedimg;
 
-    private String uploadUrl="http://192.168.1.228/PolApp/testupload.php";
+    private String urlData="http://192.168.1.29/PolApp/testupload.php";
+
+    private String urlImages="http://192.168.1.29/PolApp/testuploadimages.php";
 
     String zona, indifferenziato, carta, plastica, vetro;
 
@@ -78,6 +84,13 @@ public class NotifyActivity extends AppCompatActivity {
     int photoCount=0;
 
     RequestQueue queue;
+
+    ArrayList<String> encodedImages;
+
+    JSONObject jsonObject;
+
+    String imageFileName;
+
 
 
 
@@ -93,6 +106,10 @@ public class NotifyActivity extends AppCompatActivity {
         plastica=bundle.getString("plastica");
         vetro=bundle.getString("vetro");
 
+        jsonObject=new JSONObject();
+
+        encodedImages=new ArrayList<>();
+
 
         final Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
@@ -104,14 +121,15 @@ public class NotifyActivity extends AppCompatActivity {
         buttonsend=(Button) findViewById(R.id.buttonsend);
 
         buttonimage=(Button) findViewById(R.id.buttonphoto);
-        if(photoCount==4){
-            buttonimage.setVisibility(View.GONE);
-        }
 
         photoSaved=(ImageView) findViewById(R.id.photoSaved);
+        photoSaved.setDrawingCacheEnabled(true);
         photoSaved2=(ImageView) findViewById(R.id.photoSaved2);
+        photoSaved2.setDrawingCacheEnabled(true);
         photoSaved3=(ImageView) findViewById(R.id.photoSaved3);
+        photoSaved3.setDrawingCacheEnabled(true);
         photoSaved4=(ImageView) findViewById(R.id.photoSaved4);
+        photoSaved4.setDrawingCacheEnabled(true);
 
         problema=(EditText) findViewById(R.id.problemdescr);
 
@@ -127,7 +145,7 @@ public class NotifyActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photoSaved.setImageDrawable(null);
+                photoSaved.setImageBitmap(null);
                 cancelButton.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -138,7 +156,7 @@ public class NotifyActivity extends AppCompatActivity {
         cancelButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photoSaved2.setImageDrawable(null);
+                photoSaved2.setImageBitmap(null);
                 cancelButton2.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -149,7 +167,7 @@ public class NotifyActivity extends AppCompatActivity {
         cancelButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photoSaved3.setImageDrawable(null);
+                photoSaved3.setImageBitmap(null);
                 cancelButton3.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -160,7 +178,7 @@ public class NotifyActivity extends AppCompatActivity {
         cancelButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photoSaved4.setImageDrawable(null);
+                photoSaved4.setImageBitmap(null);
                 cancelButton4.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
@@ -198,9 +216,24 @@ public class NotifyActivity extends AppCompatActivity {
         buttonsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                encodedImages.add(imgToString(photoSaved.getDrawingCache()));
+                encodedImages.add(imgToString(photoSaved2.getDrawingCache()));
+                encodedImages.add(imgToString(photoSaved3.getDrawingCache()));
+                encodedImages.add(imgToString(photoSaved4.getDrawingCache()));
                 queue=Volley.newRequestQueue(NotifyActivity.this);
-                uploadImage();
+                JSONArray jsonArrayImages=new JSONArray();
+                for (String encoded:encodedImages) {
+                    jsonArrayImages.put(encoded);
+                    
+                }
+                try {
+                    jsonObject.put("imagearray",jsonArrayImages);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 uploadData();
+                uploadNotification();
+                uploadImages();
             }
         });
     }
@@ -241,21 +274,22 @@ public class NotifyActivity extends AppCompatActivity {
                 rotatedimg = image;
         }
         if(rotatedimg!=null){
+            Bitmap resized= Bitmap.createScaledBitmap(rotatedimg,(int)(rotatedimg.getWidth()*0.8),(int)(rotatedimg.getHeight()*0.8),true);
             photoCount++;
             if(photoCount==1) {
-                photoSaved.setImageBitmap(rotatedimg);
+                photoSaved.setImageBitmap(resized);
                 cancelButton.setVisibility(View.VISIBLE);
             }else if(photoSaved.getDrawable()==null){
-                photoSaved.setImageBitmap(rotatedimg);
+                photoSaved.setImageBitmap(resized);
                 cancelButton.setVisibility(View.VISIBLE);
             }else if(photoSaved2.getDrawable()==null){
-                photoSaved2.setImageBitmap(rotatedimg);
+                photoSaved2.setImageBitmap(resized);
                 cancelButton2.setVisibility(View.VISIBLE);
             }else if(photoSaved3.getDrawable()==null){
-                photoSaved3.setImageBitmap(rotatedimg);
+                photoSaved3.setImageBitmap(resized);
                 cancelButton3.setVisibility(View.VISIBLE);
             }else if(photoSaved4.getDrawable()==null){
-                photoSaved4.setImageBitmap(rotatedimg);
+                photoSaved4.setImageBitmap(resized);
                 cancelButton4.setVisibility(View.VISIBLE);
             }
             if(photoCount==4){
@@ -268,7 +302,7 @@ public class NotifyActivity extends AppCompatActivity {
 
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         mCurrentPhotoPath = image.getAbsolutePath();
@@ -312,32 +346,22 @@ public class NotifyActivity extends AppCompatActivity {
         return true;
     }
 
-    private void uploadImage(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, uploadUrl,
+    private void uploadNotification(){
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, urlData,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            String rsp=jsonObject.getString("response");
-                            problema.setText("");
-                            buttonsend.setVisibility(View.GONE);
-                            Snackbar.make(findViewById(R.id.notify),rsp,Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbaraction, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent openMain = new Intent(NotifyActivity.this, MainActivity.class);
-                                    startActivity(openMain);
-                                }
-                            })
-                                    .show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                queue.cancelAll(new RequestQueue.RequestFilter() {
+                    @Override
+                    public boolean apply(Request<?> request) {
+                        return true;
+                    }
+                });
 
             }
         })
@@ -345,7 +369,6 @@ public class NotifyActivity extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams() throws AuthFailureError{
                 Map<String,String> params=new HashMap<>();
-                params.put("image",imgToString(rotatedimg));
                 params.put("text",problema.getText().toString().trim());
                 params.put("name",zona);
                 return params;
@@ -354,13 +377,19 @@ public class NotifyActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
     private void uploadData(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, urlValues, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                buttonsend.setVisibility(View.GONE);
+                problema.setText("");
+                photoSaved.setImageBitmap(null);
+                photoSaved2.setImageBitmap(null);
+                photoSaved3.setImageBitmap(null);
+                photoSaved4.setImageBitmap(null);
                 try {
                     JSONObject jsonObject=new JSONObject(response);
                     String rsp=jsonObject.getString("response");
-                    Snackbar.make(findViewById(R.id.detected),rsp,Snackbar.LENGTH_INDEFINITE)
+                    Snackbar.make(findViewById(R.id.notify),rsp,Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.snackbaraction, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -372,10 +401,17 @@ public class NotifyActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                queue.cancelAll(new RequestQueue.RequestFilter() {
+                    @Override
+                    public boolean apply(Request<?> request) {
+                        return true;
+                    }
+                });
 
             }
         })
@@ -394,7 +430,29 @@ public class NotifyActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
+    public void uploadImages(){
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, urlImages, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                queue.cancelAll(new RequestQueue.RequestFilter() {
+                    @Override
+                    public boolean apply(Request<?> request) {
+                        return true;
+                    }
+                });
+
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+
 }
+
 
 
 
