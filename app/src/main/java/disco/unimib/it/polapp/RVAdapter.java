@@ -1,5 +1,6 @@
 package disco.unimib.it.polapp;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,17 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.vision.text.TextRecognizer;
-
 import java.util.List;
 
 /**
  * Created by omarg on 28/12/2017.
  */
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CestinoViewHolder> {
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.BasketViewHolder> {
 
-    private List<Cestino> cestini;
+    private List<Basket> Baskets;
 
     private static OnItemClickListener mItemClickListener;
 
@@ -26,71 +25,62 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CestinoViewHolder>
         void onItemClick(View view, int position);
     }
 
-    RVAdapter(List<Cestino> cestini) { this.cestini=cestini; }
+    RVAdapter(List<Basket> cestini) { this.Baskets=cestini; }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         RVAdapter.mItemClickListener = mItemClickListener;
     }
 
     @Override
-    public CestinoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
+    public BasketViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
         View v= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview,viewGroup,false);
-        CestinoViewHolder phv = new CestinoViewHolder(v);
+        BasketViewHolder phv = new BasketViewHolder(v);
         return phv;
     }
 
     @Override
-    public void onBindViewHolder(CestinoViewHolder cestinoViewHolder, int i){
-        Cestino cestino = cestini.get(i);
-        cestinoViewHolder.bindCestino(cestino);
+    public void onBindViewHolder(BasketViewHolder BasketViewHolder, int i){
+        Basket basket = Baskets.get(i);
+        BasketViewHolder.bindBasket(basket);
     }
 
     @Override
     public int getItemCount(){
-        return cestini.size();
+        return Baskets.size();
     }
 
-    public static class CestinoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class BasketViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private Cestino  mCestino;
-
-        private CardView cv;
+        private Basket  mBasket;
         private TextView tipo;
-        private TextView indicazioni;
         private ImageView fotocestino;
 
-        CestinoViewHolder(View itemView){
+        BasketViewHolder(View itemView){
             super(itemView);
-            cv=(CardView) itemView.findViewById(R.id.cv);
             tipo=(TextView) itemView.findViewById(R.id.cestino_name);
-            indicazioni=(TextView) itemView.findViewById(R.id.indicazioni);
             fotocestino=(ImageView) itemView.findViewById(R.id.cestino_photo);
             itemView.setOnClickListener(this);
         }
 
-        public void bindCestino(Cestino cestino) {
-            mCestino = cestino;
-
-            tipo.setText(mCestino.getTipo());
-            if(cestino.getLivriempimento()==-1) {
-                indicazioni.setText(R.string.indicazionivuoto);
-            }else{
-                indicazioni.setText("Livello riempimento: "+cestino.getLivriempimento()+"%");
-            }
-            switch (cestino.getTipo()){
-                case "Indifferenziato": fotocestino.setImageResource(R.drawable.ic_delete_blue_24dp);
-                break;
-                case "Carta": fotocestino.setImageResource(R.drawable.ic_delete_red_24dp);
-                break;
-                case "Plastica e Metallo" : fotocestino.setImageResource(R.drawable.ic_delete_yellow_24dp);
-                break;
-                case "Vetro" : fotocestino.setImageResource(R.drawable.ic_delete_green_24dp);
-                break;
-                default : fotocestino.setImageResource(R.drawable.ic_delete_black_24dp);
+        public void bindBasket(Basket basket) {
+            mBasket = basket;
+            tipo.setText(mBasket.getTipo());
+            if(basket.getTipo().equals(getContext().getString(R.string.cestinoindiff))){
+                fotocestino.setImageResource(R.drawable.ic_delete_blue_24dp);
+            }else if(basket.getTipo().equals(getContext().getString(R.string.cestinocarta))){
+                fotocestino.setImageResource(R.drawable.ic_delete_red_24dp);
+            }else if(basket.getTipo().equals(getContext().getString(R.string.cestinoplastica))){
+                fotocestino.setImageResource(R.drawable.ic_delete_yellow_24dp);
+            }else if (basket.getTipo().equals(getContext().getString(R.string.cestinovetro))){
+                fotocestino.setImageResource(R.drawable.ic_delete_green_24dp);
             }
 
 
         }
+        public Context getContext() {
+            return itemView.getContext();
+        }
+
 
         @Override
         public void onClick(View v) {

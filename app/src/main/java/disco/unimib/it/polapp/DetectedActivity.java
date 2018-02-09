@@ -31,11 +31,11 @@ import java.util.Map;
 
 public class DetectedActivity extends AppCompatActivity {
 
-    private List<Cestino> bidoni= new ArrayList<>();
+    private List<Basket> baskets= new ArrayList<>();
 
     private String url="http://192.168.1.228/PolApp/testuploaddata.php";
 
-    String name;
+     private String name;
 
 
 
@@ -54,7 +54,7 @@ public class DetectedActivity extends AppCompatActivity {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-        setTitle(bundle.getString("titolo"));
+        setTitle(name);
 
         RecyclerView rv= (RecyclerView) findViewById(R.id.rv);
         rv.setHasFixedSize(true);
@@ -64,7 +64,7 @@ public class DetectedActivity extends AppCompatActivity {
 
         Initialize();
 
-        final RVAdapter adapter=new RVAdapter(bidoni);
+        final RVAdapter adapter=new RVAdapter(baskets);
         rv.setAdapter(adapter);
 
         final FloatingActionButton FAB_SEND=(FloatingActionButton) findViewById(R.id.fab_send);
@@ -78,12 +78,12 @@ public class DetectedActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, final int position) {
-                builder2.setTitle(bidoni.get(position).getTipo())
+                builder2.setTitle(baskets.get(position).getTipo())
                         .setItems(R.array.percentuali, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 int [] values=getResources().getIntArray(R.array.values);
-                                bidoni.get(position).setLivriempimento(values[which]);
+                                baskets.get(position).setLivRiempimento(values[which]);
                                 adapter.notifyItemChanged(position);
                             }
                         });
@@ -99,8 +99,8 @@ public class DetectedActivity extends AppCompatActivity {
             public void onClick(View v) {
                 boolean isComplete=true;
 
-                for (Cestino cestino:bidoni) {
-                    if(cestino.getLivriempimento()==-1){
+                for (Basket cestino: baskets) {
+                    if(cestino.getLivRiempimento()==-1){
                         isComplete=false;
                     }
                 }
@@ -131,10 +131,10 @@ public class DetectedActivity extends AppCompatActivity {
                                     Intent openNotify=new Intent(DetectedActivity.this, NotifyActivity.class);
                                     Bundle pack=new Bundle();
                                     pack.putString("zona",name);
-                                    pack.putString("indifferenziato",String.valueOf(bidoni.get(0).getLivriempimento()));
-                                    pack.putString("carta",String.valueOf(bidoni.get(1).getLivriempimento()));
-                                    pack.putString("plastica",String.valueOf(bidoni.get(2).getLivriempimento()));
-                                    pack.putString("vetro",String.valueOf(bidoni.get(3).getLivriempimento()));
+                                    pack.putString("indifferenziato",String.valueOf(baskets.get(0).getLivRiempimento()));
+                                    pack.putString("carta",String.valueOf(baskets.get(1).getLivRiempimento()));
+                                    pack.putString("plastica",String.valueOf(baskets.get(2).getLivRiempimento()));
+                                    pack.putString("vetro",String.valueOf(baskets.get(3).getLivRiempimento()));
                                     openNotify.putExtras(pack);
                                     startActivity(openNotify);
                                 }
@@ -163,10 +163,10 @@ public class DetectedActivity extends AppCompatActivity {
     }
 
     private void Initialize(){
-        bidoni.add(new Cestino(-1,"Indifferenziato"));
-        bidoni.add(new Cestino(-1,"Carta"));
-        bidoni.add(new Cestino(-1,"Plastica e Metallo"));
-        bidoni.add(new Cestino(-1,"Vetro"));
+        baskets.add(new Basket(-1,getResources().getString(R.string.cestinoindiff)));
+        baskets.add(new Basket(-1,getResources().getString(R.string.cestinocarta)));
+        baskets.add(new Basket(-1,getResources().getString(R.string.cestinoplastica)));
+        baskets.add(new Basket(-1,getResources().getString(R.string.cestinovetro)));
 
     }
 
@@ -202,10 +202,10 @@ public class DetectedActivity extends AppCompatActivity {
             protected Map<String,String> getParams() throws AuthFailureError{
                 Map<String,String> params=new HashMap<>();
                 params.put("zona",name);
-                params.put("indifferenziato",String.valueOf(bidoni.get(0).getLivriempimento()));
-                params.put("carta",String.valueOf(bidoni.get(1).getLivriempimento()));
-                params.put("plastica",String.valueOf(bidoni.get(2).getLivriempimento()));
-                params.put("vetro",String.valueOf(bidoni.get(3).getLivriempimento()));
+                params.put("indifferenziato",String.valueOf(baskets.get(0).getLivRiempimento()));
+                params.put("carta",String.valueOf(baskets.get(1).getLivRiempimento()));
+                params.put("plastica",String.valueOf(baskets.get(2).getLivRiempimento()));
+                params.put("vetro",String.valueOf(baskets.get(3).getLivRiempimento()));
                 return params;
             }
         };

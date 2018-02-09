@@ -47,7 +47,7 @@
     <string name="ok">Ok</string>
     <string name="cestinoindiff">Indifferenziato</string>
     <string name="cestinocarta">Carta</string>
-    <string name="cestinoplastica">Plastica</string>
+    <string name="cestinoplastica">Plastica e Metallo</string>
     <string name="cestinovetro">Vetro</string>
     <string name="indicazionivuoto">"premi per inserire il livello di riempimento"</string>
     <string name="indicazionipieno">livello riempimento: </string>
@@ -59,6 +59,7 @@
     <string name="notificationsent">Notifica Inviata</string>
     <string name="sentdata">Dati Inviati</string>
     <string name="cancel_button">X</string>
+    <string name="fill_level">Livello riempimento: </string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

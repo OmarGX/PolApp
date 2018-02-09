@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,43 +52,43 @@ public class NotifyActivity extends AppCompatActivity {
 
     private String urlValues="http://192.168.1.228/PolApp/testuploaddata.php";
 
-    Bitmap image,imageCanc;
+    private Bitmap image;
 
-    String mCurrentPhotoPath;
+    private String mCurrentPhotoPath;
 
-    File photoFile=null;
+    private File photoFile=null;
 
-    Uri photoUri;
+    private Uri photoUri;
 
-    Intent TakePictureIntent;
+    private Intent TakePictureIntent;
 
-    ImageView photoSaved, photoSaved2, photoSaved3, photoSaved4;
+    private ImageView photoSaved, photoSaved2, photoSaved3, photoSaved4;
 
-    Button cancelButton, cancelButton2, cancelButton3, cancelButton4;
+    private Button cancelButton, cancelButton2, cancelButton3, cancelButton4;
 
-    Bitmap rotatedimg;
+    private Bitmap rotatedimg;
 
     private String urlData="http://192.168.1.228/PolApp/testupload.php";
 
     private String urlImages="http://192.168.1.228/PolApp/testuploadimages.php";
 
-    String zona, indifferenziato, carta, plastica, vetro;
+    private String zona, indifferenziato, carta, plastica, vetro;
 
-    Button buttonimage;
+    private Button buttonimage;
 
-    EditText problema;
+    private EditText problema;
 
-    Button buttonsend;
+    private Button buttonsend;
 
     int photoCount=0;
 
-    RequestQueue queue;
+    private RequestQueue queue;
 
-    ArrayList<String> encodedImages;
+    private ArrayList<String> encodedImages;
 
-    JSONObject jsonObject;
+    private JSONObject jsonObject;
 
-    String imageFileName;
+    private String imageFileName;
 
 
 

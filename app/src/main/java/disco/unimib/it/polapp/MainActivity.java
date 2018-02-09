@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private boolean isCameraOpen;
 
-    SurfaceView cameraView;
+    private SurfaceView cameraView;
 
-    CameraSource cameraSource;
+    private CameraSource cameraSource;
 
 
 
