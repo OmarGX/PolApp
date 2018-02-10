@@ -33,9 +33,7 @@ public class DetectedActivity extends AppCompatActivity {
 
     private List<Basket> baskets= new ArrayList<>();
 
-    private String url="http://192.168.1.228/PolApp/testuploaddata.php";
-
-     private String name;
+    private String name;
 
 
 
@@ -121,8 +119,14 @@ public class DetectedActivity extends AppCompatActivity {
                             setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if(Utils.isNetworkAvaiable(DetectedActivity.this)){
                                     dialog.dismiss();
                                     uploadData();
+                                }else {
+                                        dialog.dismiss();
+                                        Snackbar.make(findViewById(R.id.detected),R.string.no_internet,Snackbar.LENGTH_SHORT).show();
+
+                                    }
                                 }
                             });
                             builder3.setNeutralButton(R.string.problem, new DialogInterface.OnClickListener() {
@@ -172,7 +176,7 @@ public class DetectedActivity extends AppCompatActivity {
 
     private void uploadData(){
         RequestQueue queue= Volley.newRequestQueue(this);
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, Utils.urlValues, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

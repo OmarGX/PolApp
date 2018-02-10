@@ -60,6 +60,7 @@
     <string name="sentdata">Dati Inviati</string>
     <string name="cancel_button">X</string>
     <string name="fill_level">Livello riempimento: </string>
+    <string name="no_internet">Nessuna connessione internet</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

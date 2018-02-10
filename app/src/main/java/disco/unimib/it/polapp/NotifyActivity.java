@@ -50,7 +50,6 @@ import java.util.Map;
 
 public class NotifyActivity extends AppCompatActivity {
 
-    private String urlValues="http://192.168.1.228/PolApp/testuploaddata.php";
 
     private Bitmap image;
 
@@ -67,10 +66,6 @@ public class NotifyActivity extends AppCompatActivity {
     private Button cancelButton, cancelButton2, cancelButton3, cancelButton4;
 
     private Bitmap rotatedimg;
-
-    private String urlData="http://192.168.1.228/PolApp/testupload.php";
-
-    private String urlImages="http://192.168.1.228/PolApp/testuploadimages.php";
 
     private String zona, indifferenziato, carta, plastica, vetro;
 
@@ -223,32 +218,36 @@ public class NotifyActivity extends AppCompatActivity {
         buttonsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(photoSaved.getDrawable()!=null) {
-                    encodedImages.add(imgToString(photoSaved.getDrawingCache()));
+                if (Utils.isNetworkAvaiable(NotifyActivity.this)) {
+                    if (photoSaved.getDrawable() != null) {
+                        encodedImages.add(imgToString(photoSaved.getDrawingCache()));
+                    }
+                    if (photoSaved2.getDrawable() != null) {
+                        encodedImages.add(imgToString(photoSaved2.getDrawingCache()));
+                    }
+                    if (photoSaved3.getDrawable() != null) {
+                        encodedImages.add(imgToString(photoSaved3.getDrawingCache()));
+                    }
+                    if (photoSaved4.getDrawable() != null) {
+                        encodedImages.add(imgToString(photoSaved4.getDrawingCache()));
+                    }
+                    queue = Volley.newRequestQueue(NotifyActivity.this);
+                    JSONArray jsonArrayImages = new JSONArray();
+                    for (String encoded : encodedImages) {
+                        jsonArrayImages.put(encoded);
+
+                    }
+                    try {
+                        jsonObject.put("imagearray", jsonArrayImages);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    uploadData();
+                    uploadNotification();
+                    uploadImages();
+                }else{
+                    Snackbar.make(findViewById(R.id.notify),R.string.no_internet,Snackbar.LENGTH_SHORT).show();
                 }
-                if(photoSaved2.getDrawable()!=null) {
-                    encodedImages.add(imgToString(photoSaved2.getDrawingCache()));
-                }
-                if(photoSaved3.getDrawable()!=null) {
-                    encodedImages.add(imgToString(photoSaved3.getDrawingCache()));
-                }
-                if(photoSaved4.getDrawable()!=null) {
-                    encodedImages.add(imgToString(photoSaved4.getDrawingCache()));
-                }
-                queue=Volley.newRequestQueue(NotifyActivity.this);
-                JSONArray jsonArrayImages=new JSONArray();
-                for (String encoded:encodedImages) {
-                    jsonArrayImages.put(encoded);
-                    
-                }
-                try {
-                    jsonObject.put("imagearray",jsonArrayImages);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                uploadData();
-                uploadNotification();
-                uploadImages();
             }
         });
     }
@@ -362,7 +361,7 @@ public class NotifyActivity extends AppCompatActivity {
     }
 
     private void uploadNotification(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, urlData,
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, Utils.urlData,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -392,7 +391,7 @@ public class NotifyActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
     private void uploadData(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, urlValues, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, Utils.urlValues, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 buttonsend.setVisibility(View.GONE);
@@ -450,7 +449,7 @@ public class NotifyActivity extends AppCompatActivity {
     }
 
     public void uploadImages(){
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, urlImages, jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, Utils.urlImages, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
