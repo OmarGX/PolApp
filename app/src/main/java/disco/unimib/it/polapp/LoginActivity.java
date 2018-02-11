@@ -3,7 +3,6 @@ package disco.unimib.it.polapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -54,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(cognome, C);
                     editor.putBoolean(firstTime, false);
                     editor.apply();
-                    Intent openMain = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent openMain = new Intent(LoginActivity.this, ScanActivity.class);
                     startActivity(openMain);
 
                 }

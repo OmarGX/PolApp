@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
                         startActivity(openLogin);
                         finish();
                     } else {
-                        Intent openMain = new Intent(SplashActivity.this, MainActivity.class);
+                        Intent openMain = new Intent(SplashActivity.this, ScanActivity.class);
                         openMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         openMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         openMain.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

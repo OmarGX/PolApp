@@ -3,7 +3,6 @@ package disco.unimib.it.polapp;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,9 +27,11 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
+public class ScanActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "ScanActivity";
+
+    private static final String cameraOpen="cameraopen";
 
     private boolean isCameraOpen;
 
@@ -90,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
 
-                if (ContextCompat.checkSelfPermission(MainActivity.this,
+                if (ContextCompat.checkSelfPermission(ScanActivity.this,
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 50);
+                    ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, 50);
                 } else {
                     //start your camera
                     try {
@@ -128,12 +129,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
                 if (barcodes.size() != 0) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(ScanActivity.this);
                     builder.setMessage("Codice rilevato: " + barcodes.valueAt(0).rawValue);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent detected = new Intent(MainActivity.this, DetectedActivity.class);
+                            Intent detected = new Intent(ScanActivity.this, DetectedActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("titolo", barcodes.valueAt(0).rawValue);
                             detected.putExtras(bundle);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             cameraView.setVisibility(View.GONE);
                         }
                     });
-                    MainActivity.this.runOnUiThread(new Runnable() {
+                    ScanActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             cameraSource.stop();
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("cameraopen", isCameraOpen);
+        savedInstanceState.putBoolean(cameraOpen, isCameraOpen);
     }
 
     @SuppressLint("MissingPermission")

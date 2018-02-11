@@ -186,7 +186,7 @@ public class DetectedActivity extends AppCompatActivity {
                             .setAction(R.string.snackbaraction, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent openMain = new Intent(DetectedActivity.this, MainActivity.class);
+                                    Intent openMain = new Intent(DetectedActivity.this, ScanActivity.class);
                                     startActivity(openMain);
                                 }
                             }).show();

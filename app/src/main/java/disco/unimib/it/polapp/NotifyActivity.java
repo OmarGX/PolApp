@@ -411,7 +411,7 @@ public class NotifyActivity extends AppCompatActivity {
                             .setAction(R.string.snackbaraction, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent openMain = new Intent(NotifyActivity.this, MainActivity.class);
+                                    Intent openMain = new Intent(NotifyActivity.this, ScanActivity.class);
                                     startActivity(openMain);
                                 }
                             }).show();

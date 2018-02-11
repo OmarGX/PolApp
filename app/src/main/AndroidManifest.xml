@@ -35,7 +35,7 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ScanActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
