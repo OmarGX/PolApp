@@ -29,24 +29,24 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
 
-        final Spinner ed1 = (Spinner) findViewById(R.id.spinner_aree);
-        final Spinner ed2 = (Spinner) findViewById(R.id.spinner_ruoli);
+        final Spinner areaSpinner = (Spinner) findViewById(R.id.spinner_aree);
+        final Spinner roleSpinner = (Spinner) findViewById(R.id.spinner_ruoli);
 
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.areeuniv,android.R.layout.simple_spinner_dropdown_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ed1.setAdapter(adapter1);
+        areaSpinner.setAdapter(adapter1);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,R.array.ruoli,android.R.layout.simple_spinner_dropdown_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ed2.setAdapter(adapter2);
+        roleSpinner.setAdapter(adapter2);
 
 
         final Button savedata = (Button) findViewById(R.id.button2);
 
         savedata.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    String N = ed1.getSelectedItem().toString();
-                    String C = ed2.getSelectedItem().toString();
+                    String N = areaSpinner.getSelectedItem().toString();
+                    String C = roleSpinner.getSelectedItem().toString();
                     SharedPreferences.Editor editor;
                     editor = sharedp.edit();
                     editor.putString(Nome, N);
