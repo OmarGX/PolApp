@@ -61,6 +61,8 @@
     <string name="cancel_button">X</string>
     <string name="fill_level">Livello riempimento: </string>
     <string name="no_internet">Nessuna connessione internet</string>
+    <string name="scan_code">Codice rilevato: %1$s</string>
+    <string name="negative_action">Annulla</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

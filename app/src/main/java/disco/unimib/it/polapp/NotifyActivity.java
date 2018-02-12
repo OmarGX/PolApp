@@ -148,6 +148,28 @@ public class NotifyActivity extends AppCompatActivity {
                 cancelButton.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
+                if(photoCount==1 && photoSaved2.getDrawingCache()!=null){
+                    photoSaved.setImageBitmap(photoSaved2.getDrawingCache());
+                    photoSaved2.setImageBitmap(null);
+                    photoSaved2.setImageDrawable(null);
+                    cancelButton2.setVisibility(View.GONE);
+                    cancelButton.setVisibility(View.VISIBLE);
+                }else if(photoCount==2 && photoSaved2.getDrawingCache()!=null && photoSaved3.getDrawingCache()!=null){
+                    photoSaved.setImageBitmap(photoSaved2.getDrawingCache());
+                    photoSaved2.setImageBitmap(photoSaved3.getDrawingCache());
+                    photoSaved3.setImageBitmap(null);
+                    photoSaved3.setImageDrawable(null);
+                    cancelButton3.setVisibility(View.GONE);
+                    cancelButton.setVisibility(View.VISIBLE);
+                }else if(photoCount==3 && photoSaved2.getDrawingCache()!=null && photoSaved3.getDrawingCache()!=null && photoSaved4.getDrawingCache()!=null){
+                    photoSaved.setImageBitmap(photoSaved2.getDrawingCache());
+                    photoSaved2.setImageBitmap(photoSaved3.getDrawingCache());
+                    photoSaved3.setImageBitmap(photoSaved4.getDrawingCache());
+                    photoSaved4.setImageBitmap(null);
+                    photoSaved4.setImageDrawable(null);
+                    cancelButton4.setVisibility(View.GONE);
+                    cancelButton.setVisibility(View.VISIBLE);
+                }
 
             }
         });
@@ -160,6 +182,20 @@ public class NotifyActivity extends AppCompatActivity {
                 cancelButton2.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
+                if(photoCount==2 && photoSaved3.getDrawingCache()!=null){
+                    photoSaved2.setImageBitmap(photoSaved3.getDrawingCache());
+                    photoSaved3.setImageBitmap(null);
+                    photoSaved3.setImageDrawable(null);
+                    cancelButton3.setVisibility(View.GONE);
+                    cancelButton2.setVisibility(View.VISIBLE);
+                }else if(photoCount==3 && photoSaved3.getDrawingCache()!=null && photoSaved4.getDrawingCache()!=null){
+                    photoSaved2.setImageBitmap(photoSaved3.getDrawingCache());
+                    photoSaved3.setImageBitmap(photoSaved4.getDrawingCache());
+                    photoSaved4.setImageBitmap(null);
+                    photoSaved4.setImageDrawable(null);
+                    cancelButton4.setVisibility(View.GONE);
+                    cancelButton2.setVisibility(View.VISIBLE);
+                }
 
             }
         });
@@ -172,6 +208,13 @@ public class NotifyActivity extends AppCompatActivity {
                 cancelButton3.setVisibility(View.GONE);
                 photoCount--;
                 buttonimage.setVisibility(View.VISIBLE);
+                if(photoCount==3 && photoSaved4.getDrawingCache()!=null){
+                    photoSaved3.setImageBitmap(photoSaved4.getDrawingCache());
+                    photoSaved4.setImageDrawable(null);
+                    photoSaved4.setImageBitmap(null);
+                    cancelButton4.setVisibility(View.GONE);
+                    cancelButton3.setVisibility(View.VISIBLE);
+                }
 
             }
         });

@@ -130,7 +130,7 @@ public class ScanActivity extends AppCompatActivity implements ActivityCompat.On
 
                 if (barcodes.size() != 0) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(ScanActivity.this);
-                    builder.setMessage("Codice rilevato: " + barcodes.valueAt(0).rawValue);
+                    builder.setMessage(getResources().getString(R.string.scan_code, barcodes.valueAt(0).rawValue));
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -141,7 +141,7 @@ public class ScanActivity extends AppCompatActivity implements ActivityCompat.On
                             startActivity(detected);
                         }
                     });
-                    builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(R.string.negative_action, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             textView.setVisibility(View.VISIBLE);
