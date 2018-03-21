@@ -33,7 +33,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context="disco.unimib.it.polapp.NotifyActivity">
+            tools:context="disco.unimib.it.polapp.NotificationActivity">
 
 
             <EditText

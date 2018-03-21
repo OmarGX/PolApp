@@ -48,7 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class NotifyActivity extends AppCompatActivity {
+public class NotificationActivity extends AppCompatActivity {
 
 
     private Bitmap image;
@@ -92,7 +92,7 @@ public class NotifyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notify);
+        setContentView(R.layout.activity_notification);
         Bundle bundle=getIntent().getExtras();
         zona=bundle.getString("zona");
         indifferenziato=bundle.getString("indifferenziato");
@@ -237,8 +237,8 @@ public class NotifyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TakePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (TakePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    if (ContextCompat.checkSelfPermission(NotifyActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(NotifyActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    if (ContextCompat.checkSelfPermission(NotificationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(NotificationActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                     } else {
                         try {
                             photoFile = createImageFile();
@@ -246,7 +246,7 @@ public class NotifyActivity extends AppCompatActivity {
                             ex.printStackTrace();
                         }
                         if (photoFile != null) {
-                            photoUri = FileProvider.getUriForFile(NotifyActivity.this, "com.example.android.fileprovider", photoFile);
+                            photoUri = FileProvider.getUriForFile(NotificationActivity.this, "com.example.android.fileprovider", photoFile);
                             TakePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                             startActivityForResult(TakePictureIntent, 50);
                         }
@@ -261,7 +261,7 @@ public class NotifyActivity extends AppCompatActivity {
         buttonsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Utils.isNetworkAvaiable(NotifyActivity.this)) {
+                if (NetworkUtils.isNetworkAvaiable(NotificationActivity.this)) {
                     if (photoSaved.getDrawable() != null) {
                         encodedImages.add(imgToString(photoSaved.getDrawingCache()));
                     }
@@ -274,7 +274,7 @@ public class NotifyActivity extends AppCompatActivity {
                     if (photoSaved4.getDrawable() != null) {
                         encodedImages.add(imgToString(photoSaved4.getDrawingCache()));
                     }
-                    queue = Volley.newRequestQueue(NotifyActivity.this);
+                    queue = Volley.newRequestQueue(NotificationActivity.this);
                     JSONArray jsonArrayImages = new JSONArray();
                     for (String encoded : encodedImages) {
                         jsonArrayImages.put(encoded);
@@ -375,7 +375,7 @@ public class NotifyActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
             if (photoFile != null) {
-                photoUri = FileProvider.getUriForFile(NotifyActivity.this, "com.example.android.fileprovider", photoFile);
+                photoUri = FileProvider.getUriForFile(NotificationActivity.this, "com.example.android.fileprovider", photoFile);
                 TakePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(TakePictureIntent, 50);
             }
@@ -404,7 +404,7 @@ public class NotifyActivity extends AppCompatActivity {
     }
 
     private void uploadNotification(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, Utils.urlData,
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, ApiContract.urlData,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -434,7 +434,7 @@ public class NotifyActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
     private void uploadData(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, Utils.urlValues, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, ApiContract.urlValues, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 buttonsend.setVisibility(View.GONE);
@@ -454,7 +454,7 @@ public class NotifyActivity extends AppCompatActivity {
                             .setAction(R.string.snackbaraction, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent openMain = new Intent(NotifyActivity.this, ScanActivity.class);
+                                    Intent openMain = new Intent(NotificationActivity.this, QrCodeScannerActivity.class);
                                     startActivity(openMain);
                                 }
                             }).show();
@@ -492,7 +492,7 @@ public class NotifyActivity extends AppCompatActivity {
     }
 
     public void uploadImages(){
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, Utils.urlImages, jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, ApiContract.urlImages, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 

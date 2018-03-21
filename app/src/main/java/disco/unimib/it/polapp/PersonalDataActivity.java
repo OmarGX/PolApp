@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class PersonalDataActivity extends AppCompatActivity {
     SharedPreferences sharedp;
     private static final String MyPref = "MyPrefs" ;
     private static final String Nome = "nameKey";
@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedp=getSharedPreferences(MyPref, Context.MODE_PRIVATE);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_personal_data);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(cognome, C);
                     editor.putBoolean(firstTime, false);
                     editor.apply();
-                    Intent openMain = new Intent(LoginActivity.this, ScanActivity.class);
+                    Intent openMain = new Intent(PersonalDataActivity.this, QrCodeScannerActivity.class);
                     startActivity(openMain);
 
                 }

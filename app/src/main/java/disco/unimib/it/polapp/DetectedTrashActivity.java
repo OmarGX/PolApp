@@ -29,9 +29,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DetectedActivity extends AppCompatActivity {
+public class DetectedTrashActivity extends AppCompatActivity {
 
-    private List<Basket> baskets= new ArrayList<>();
+    private List<Trash> trashes = new ArrayList<>();
 
     private String name;
 
@@ -42,7 +42,7 @@ public class DetectedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detected);
+        setContentView(R.layout.activity_detected_trash);
         Bundle bundle=getIntent().getExtras();
 
         name=bundle.getString("titolo");
@@ -62,12 +62,12 @@ public class DetectedActivity extends AppCompatActivity {
 
         Initialize();
 
-        final RVAdapter adapter=new RVAdapter(baskets);
+        final RVAdapter adapter=new RVAdapter(trashes);
         rv.setAdapter(adapter);
 
         final FloatingActionButton FAB_SEND=(FloatingActionButton) findViewById(R.id.fab_send);
 
-        final AlertDialog.Builder builder2=new AlertDialog.Builder(DetectedActivity.this);
+        final AlertDialog.Builder builder2=new AlertDialog.Builder(DetectedTrashActivity.this);
 
 
 
@@ -76,12 +76,12 @@ public class DetectedActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, final int position) {
-                builder2.setTitle(baskets.get(position).getTipo())
+                builder2.setTitle(trashes.get(position).getTipo())
                         .setItems(R.array.percentuali, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 int [] values=getResources().getIntArray(R.array.values);
-                                baskets.get(position).setLivRiempimento(values[which]);
+                                trashes.get(position).setLivRiempimento(values[which]);
                                 adapter.notifyItemChanged(position);
                             }
                         });
@@ -90,14 +90,14 @@ public class DetectedActivity extends AppCompatActivity {
             }
         });
 
-         final AlertDialog.Builder builder3=new AlertDialog.Builder(DetectedActivity.this);
+         final AlertDialog.Builder builder3=new AlertDialog.Builder(DetectedTrashActivity.this);
 
         FAB_SEND.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isComplete=true;
 
-                for (Basket cestino: baskets) {
+                for (Trash cestino: trashes) {
                     if(cestino.getLivRiempimento()==-1){
                         isComplete=false;
                     }
@@ -119,7 +119,7 @@ public class DetectedActivity extends AppCompatActivity {
                             setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(Utils.isNetworkAvaiable(DetectedActivity.this)){
+                                    if(NetworkUtils.isNetworkAvaiable(DetectedTrashActivity.this)){
                                     dialog.dismiss();
                                     uploadData();
                                 }else {
@@ -132,13 +132,13 @@ public class DetectedActivity extends AppCompatActivity {
                             builder3.setNeutralButton(R.string.problem, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent openNotify=new Intent(DetectedActivity.this, NotifyActivity.class);
+                                    Intent openNotify=new Intent(DetectedTrashActivity.this, NotificationActivity.class);
                                     Bundle pack=new Bundle();
                                     pack.putString("zona",name);
-                                    pack.putString("indifferenziato",String.valueOf(baskets.get(0).getLivRiempimento()));
-                                    pack.putString("carta",String.valueOf(baskets.get(1).getLivRiempimento()));
-                                    pack.putString("plastica",String.valueOf(baskets.get(2).getLivRiempimento()));
-                                    pack.putString("vetro",String.valueOf(baskets.get(3).getLivRiempimento()));
+                                    pack.putString("indifferenziato",String.valueOf(trashes.get(0).getLivRiempimento()));
+                                    pack.putString("carta",String.valueOf(trashes.get(1).getLivRiempimento()));
+                                    pack.putString("plastica",String.valueOf(trashes.get(2).getLivRiempimento()));
+                                    pack.putString("vetro",String.valueOf(trashes.get(3).getLivRiempimento()));
                                     openNotify.putExtras(pack);
                                     startActivity(openNotify);
                                 }
@@ -167,16 +167,16 @@ public class DetectedActivity extends AppCompatActivity {
     }
 
     private void Initialize(){
-        baskets.add(new Basket(-1,getResources().getString(R.string.cestinoindiff)));
-        baskets.add(new Basket(-1,getResources().getString(R.string.cestinocarta)));
-        baskets.add(new Basket(-1,getResources().getString(R.string.cestinoplastica)));
-        baskets.add(new Basket(-1,getResources().getString(R.string.cestinovetro)));
+        trashes.add(new Trash(-1,getResources().getString(R.string.cestinoindiff)));
+        trashes.add(new Trash(-1,getResources().getString(R.string.cestinocarta)));
+        trashes.add(new Trash(-1,getResources().getString(R.string.cestinoplastica)));
+        trashes.add(new Trash(-1,getResources().getString(R.string.cestinovetro)));
 
     }
 
     private void uploadData(){
         RequestQueue queue= Volley.newRequestQueue(this);
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, Utils.urlValues, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, ApiContract.urlValues, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -186,7 +186,7 @@ public class DetectedActivity extends AppCompatActivity {
                             .setAction(R.string.snackbaraction, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent openMain = new Intent(DetectedActivity.this, ScanActivity.class);
+                                    Intent openMain = new Intent(DetectedTrashActivity.this, QrCodeScannerActivity.class);
                                     startActivity(openMain);
                                 }
                             }).show();
@@ -206,10 +206,10 @@ public class DetectedActivity extends AppCompatActivity {
             protected Map<String,String> getParams() throws AuthFailureError{
                 Map<String,String> params=new HashMap<>();
                 params.put("zona",name);
-                params.put("indifferenziato",String.valueOf(baskets.get(0).getLivRiempimento()));
-                params.put("carta",String.valueOf(baskets.get(1).getLivRiempimento()));
-                params.put("plastica",String.valueOf(baskets.get(2).getLivRiempimento()));
-                params.put("vetro",String.valueOf(baskets.get(3).getLivRiempimento()));
+                params.put("indifferenziato",String.valueOf(trashes.get(0).getLivRiempimento()));
+                params.put("carta",String.valueOf(trashes.get(1).getLivRiempimento()));
+                params.put("plastica",String.valueOf(trashes.get(2).getLivRiempimento()));
+                params.put("vetro",String.valueOf(trashes.get(3).getLivRiempimento()));
                 return params;
             }
         };

@@ -27,9 +27,9 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public class ScanActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
+public class QrCodeScannerActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
 
-    private static final String TAG = "ScanActivity";
+    private static final String TAG = "QrCodeScannerActivity";
 
     private static final String cameraOpen="cameraopen";
 
@@ -45,7 +45,7 @@ public class ScanActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_qr_code_scanner);
         Log.d(TAG, String.valueOf(isCameraOpen));
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -91,9 +91,9 @@ public class ScanActivity extends AppCompatActivity implements ActivityCompat.On
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
 
-                if (ContextCompat.checkSelfPermission(ScanActivity.this,
+                if (ContextCompat.checkSelfPermission(QrCodeScannerActivity.this,
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, 50);
+                    ActivityCompat.requestPermissions(QrCodeScannerActivity.this, new String[]{Manifest.permission.CAMERA}, 50);
                 } else {
                     //start your camera
                     try {
@@ -129,12 +129,12 @@ public class ScanActivity extends AppCompatActivity implements ActivityCompat.On
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
                 if (barcodes.size() != 0) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(ScanActivity.this);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(QrCodeScannerActivity.this);
                     builder.setMessage(getResources().getString(R.string.scan_code, barcodes.valueAt(0).rawValue));
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent detected = new Intent(ScanActivity.this, DetectedActivity.class);
+                            Intent detected = new Intent(QrCodeScannerActivity.this, DetectedTrashActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("titolo", barcodes.valueAt(0).rawValue);
                             detected.putExtras(bundle);
@@ -149,7 +149,7 @@ public class ScanActivity extends AppCompatActivity implements ActivityCompat.On
                             cameraView.setVisibility(View.GONE);
                         }
                     });
-                    ScanActivity.this.runOnUiThread(new Runnable() {
+                    QrCodeScannerActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             cameraSource.stop();

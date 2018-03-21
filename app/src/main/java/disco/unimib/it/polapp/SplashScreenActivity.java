@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +24,11 @@ public class SplashActivity extends AppCompatActivity {
                     Boolean isFirstTime;
                     isFirstTime = mSharedPreferences.getBoolean("RegisteredKey",true);
                     if (isFirstTime) {
-                        Intent openLogin = new Intent(SplashActivity.this, LoginActivity.class);
+                        Intent openLogin = new Intent(SplashScreenActivity.this, PersonalDataActivity.class);
                         startActivity(openLogin);
                         finish();
                     } else {
-                        Intent openMain = new Intent(SplashActivity.this, ScanActivity.class);
+                        Intent openMain = new Intent(SplashScreenActivity.this, QrCodeScannerActivity.class);
                         openMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         openMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         openMain.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
