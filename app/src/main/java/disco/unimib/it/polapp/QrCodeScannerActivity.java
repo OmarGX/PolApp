@@ -51,7 +51,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements Activity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final TextView textView = (TextView) findViewById(R.id.textView2);
+        final TextView textView = (TextView) findViewById(R.id.text_view2);
 
         final Button scanButton = (Button) findViewById(R.id.scan_button);
 
